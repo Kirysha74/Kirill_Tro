@@ -1,4 +1,4 @@
-from utils import *
+from functions import *
 
 
 class MyApp(QWidget):
@@ -90,8 +90,6 @@ class MyApp(QWidget):
         save_frequency_analysis(fname[0], self.text_edit2.toPlainText())
 
     
-
-
 if __name__ == "__main__":
 
     app = QApplication(sys.argv)

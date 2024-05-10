@@ -2,6 +2,8 @@ import json
 from pathlib import Path
 import sys
 
+from pathlib import Path
+
 from PyQt5.QtWidgets import QFileDialog, QApplication, QWidget, QPushButton, QGridLayout, QLabel, QTextEdit
 
 
@@ -32,12 +34,12 @@ def descryption(text: str, key: dict[str, str]) -> str:
         return "Отсутствует текст либо ключ шифрования!"
     try:
         for symbol in text:
-            try:
+            if symbol in key.keys():
                 src += key[symbol]
-            except:
+            else:
                 src += symbol
     except:
-        return "Oh no!"
+        return "При попытке расшифровать текст произошла ошибка!"
     return src
 
 def encryption(text: str, key: dict[str, str]) -> str:
@@ -46,21 +48,20 @@ def encryption(text: str, key: dict[str, str]) -> str:
     if text == None or key == None:
         return "Отсутствует текст либо ключ шифрования!"
     text = text.upper()
-    key = list(key.keys())
-    value = list(key.values())
+    keys = list(key.keys())
+    values = list(key.values())
     try: 
         for symbol in text:
-            try:
-                src += key[value.index(symbol)]
-            except:
+            if symbol in values:
+                src += keys[values.index(symbol)]
+            else:
                 src += symbol
     except: 
-        return "Oh no!"
+        return "При попытке зашифровать текст возникла ошибка!"
     return src
 
-def save_frequency_analysis(file_path: str, text: str) -> None:
-    """Saves the character frequency in a json file"""
-    file_path = Path(file_path)
+def freq_analysis(text: str) -> dict:
+
     dic = dict()
     
     for i in text:
@@ -72,5 +73,11 @@ def save_frequency_analysis(file_path: str, text: str) -> None:
     for k in dic.keys():
         dic[k] = dic[k] / len(text)
 
+    return dic
+
+def save_frequency_analysis(file_path: str, text: str) -> None:
+    """Saves the character frequency in a json file"""
+    file_path = Path(file_path)
+
     with open(file_path, 'w', encoding = "utf-8") as file:
-        json.dump(dic, file)
+        json.dump(freq_analysis(text), file)
