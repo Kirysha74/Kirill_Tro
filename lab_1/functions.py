@@ -1,9 +1,5 @@
 import json 
-import sys
-
 from pathlib import Path
-
-from PyQt5.QtWidgets import QFileDialog, QApplication, QWidget, QPushButton, QGridLayout, QLabel, QTextEdit
 
 
 def read_key(file_path: str) -> dict[str, str]:
@@ -16,6 +12,7 @@ def read_key(file_path: str) -> dict[str, str]:
     except:
         return None
 
+
 def read_text(file_path: str) -> str:
     """Reads the text from the file"""
     try:
@@ -25,6 +22,7 @@ def read_text(file_path: str) -> str:
             return src
     except:
         return None
+
 
 def descryption(text: str, key: dict[str, str]) -> str:
     """Decrypts text by key"""
@@ -40,6 +38,7 @@ def descryption(text: str, key: dict[str, str]) -> str:
     except:
         return "При попытке расшифровать текст произошла ошибка!"
     return src
+
 
 def encryption(text: str, key: dict[str, str]) -> str:
     """Encrypts text by key"""
@@ -59,6 +58,7 @@ def encryption(text: str, key: dict[str, str]) -> str:
         return "При попытке зашифровать текст возникла ошибка!"
     return src
 
+
 def freq_analysis(text: str) -> dict:
 
     dic = dict()
@@ -73,6 +73,7 @@ def freq_analysis(text: str) -> dict:
         dic[k] = dic[k] / len(text)
 
     return dic
+
 
 def save_frequency_analysis(file_path: str, text: str) -> None:
     """Saves the character frequency in a json file"""

@@ -1,7 +1,12 @@
+import sys
+
+from PyQt5.QtWidgets import QFileDialog, QApplication, QWidget, QPushButton, QGridLayout, QLabel, QTextEdit
+
 from functions import *
 
 
 class MyApp(QWidget):
+
     def __init__(self):
         super().__init__()
         self.initUI()
