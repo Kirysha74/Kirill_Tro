@@ -4,6 +4,7 @@ from pathlib import Path
 
 def read_key(file_path: str) -> dict[str, str]:
     """Reads the file with the decryption key"""
+
     try:
         file_path = Path(file_path)
         with open(file_path, "r", encoding = "utf-8") as file:
@@ -11,10 +12,11 @@ def read_key(file_path: str) -> dict[str, str]:
             return data
     except:
         return None
-
+        
 
 def read_text(file_path: str) -> str:
     """Reads the text from the file"""
+
     try:
         file_path = Path(file_path)
         with open(file_path, "r", encoding = "utf-8") as file:
@@ -26,6 +28,7 @@ def read_text(file_path: str) -> str:
 
 def descryption(text: str, key: dict[str, str]) -> str:
     """Decrypts text by key"""
+
     src = ""
     if text == None or key == None:
         return "Отсутствует текст либо ключ шифрования!"
@@ -42,6 +45,7 @@ def descryption(text: str, key: dict[str, str]) -> str:
 
 def encryption(text: str, key: dict[str, str]) -> str:
     """Encrypts text by key"""
+
     src = ""
     if text == None or key == None:
         return "Отсутствует текст либо ключ шифрования!"
@@ -60,6 +64,7 @@ def encryption(text: str, key: dict[str, str]) -> str:
 
 
 def freq_analysis(text: str) -> dict:
+    """Do frequency analysis"""
 
     dic = dict()
     
@@ -77,6 +82,7 @@ def freq_analysis(text: str) -> dict:
 
 def save_frequency_analysis(file_path: str, text: str) -> None:
     """Saves the character frequency in a json file"""
+
     file_path = Path(file_path)
 
     with open(file_path, 'w', encoding = "utf-8") as file:
