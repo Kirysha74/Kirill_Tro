@@ -2,8 +2,8 @@ import sys
 
 from PyQt5.QtWidgets import QFileDialog, QApplication, QWidget, QPushButton, QGridLayout, QLabel, QTextEdit, QInputDialog
 
-from functions import *
 from algorithms import Symmetric, Assymetric
+from functions import *
 
 
 class MyApp(QWidget):
@@ -34,15 +34,15 @@ class MyApp(QWidget):
         self.setLayout(vbox)
 
     def get_key_length(self) -> int:
+        """This method determines the key size"""
         key_lenght, okPressed = QInputDialog.getItem(self, "Выбор размера ключа","Размер:", ("64", "128", "192"), 0, False)
 
         if not okPressed or not key_lenght:
             key_lenght = 8
-        return int(int(key_lenght) / 8)
+        return int(key_lenght) // 8
 
-
-    def gen_keys(self):
-
+    def gen_keys(self) -> None:
+        """This method generate key"""
         symmetric = Symmetric.generate_key(self.get_key_length())
         private, public = Assymetric.generate_keys()
         enc_symmetric = Assymetric.encrypt_key(symmetric, public)
@@ -51,7 +51,8 @@ class MyApp(QWidget):
         write_private_key(QFileDialog.getSaveFileName(self, 'Сохранить закрытый ключ')[0], private)
         print("Key generation and saving completed successfully")
 
-    def encrypt_text(self):
+    def encrypt_text(self) -> None:
+        """This method encrypts the text"""
         text = read_text(QFileDialog.getOpenFileName(self, 'Выберите файл с текстом', filter = "*.txt")[0])
         private = read_private_key(QFileDialog.getOpenFileName(self, 'Прочитать закрытый ключ', filter = "*.pem")[0])
         print(private)
@@ -61,7 +62,8 @@ class MyApp(QWidget):
         write_bin_text(QFileDialog.getSaveFileName(self, 'Сохранить зашифрованный текст')[0], encrypted_text)
         print('The encryption and saving of the text were completed successfully')
 
-    def decrypt_text(self):
+    def decrypt_text(self) -> None:
+        """This method decrypts the text"""
         encrypted_text = read_bin_text(QFileDialog.getOpenFileName(self, 'Выберите файл с зашифрованным текстом', filter = "*.bin")[0])
         private = read_private_key(QFileDialog.getOpenFileName(self, 'Прочитать закрытый ключ', filter = "*.pem")[0])
         enc_symmetric = read_bin_text(QFileDialog.getOpenFileName(self, 'Прочитать зашифрованный симметричный ключ', filter = "*.bin")[0])

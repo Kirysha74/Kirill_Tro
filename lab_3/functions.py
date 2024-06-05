@@ -13,7 +13,7 @@ def read_json(file_path: str) -> dict | None:
         with open(file_path, "r", encoding="utf-8") as file:
             data = json.load(file)
             return data
-    except:
+    except FileNotFoundError:
         return None
 
 
@@ -24,7 +24,7 @@ def read_bin_text(file_path: str) -> dict | None:
         with open(file_path, "rb") as file:
             data = file.read()
             return data
-    except:
+    except FileNotFoundError:
         return None
 
 
@@ -35,12 +35,12 @@ def read_text(file_path: str) -> dict | None:
         with open(file_path, "r", encoding="utf-8") as file:
             data = file.read()
             return data
-    except:
+    except FileNotFoundError:
         return None
 
 
 def write_json(file_path: str, dic: dict) -> bool:
-    """Reads the json file"""
+    """Writes the json file"""
     try:
         file_path = Path(file_path)
         with open(file_path, "w", encoding="utf-8") as file:
@@ -51,7 +51,7 @@ def write_json(file_path: str, dic: dict) -> bool:
 
 
 def write_bin_text(file_path: str, text: str) -> bool:
-    """Reads the json file"""
+    """Writes the binary file"""
     try:
         file_path = Path(file_path)
         with open(file_path, "wb") as file:
@@ -62,7 +62,7 @@ def write_bin_text(file_path: str, text: str) -> bool:
 
 
 def write_text(file_path: str, text: str) -> bool:
-    """Reads the json file"""
+    """Writes the text file"""
     try:
         file_path = Path(file_path)
         with open(file_path, "w") as file:
@@ -71,13 +71,16 @@ def write_text(file_path: str, text: str) -> bool:
     except:
         return False
 
+
 def write_public_key(file_path: str, public_key: rsa.RSAPublicKey) -> bool:
+    """Writes the public key in binary file"""
     with open(file_path, 'wb') as public_out:
         public_out.write(public_key.public_bytes(encoding=serialization.Encoding.PEM,
              format=serialization.PublicFormat.SubjectPublicKeyInfo))
 
 
 def write_private_key(file_path: str, private_key: rsa.RSAPrivateKey) -> bool:
+    """Writes the private key in binary file"""
     with open(file_path, 'wb') as private_out:
         private_out.write(private_key.private_bytes(encoding=serialization.Encoding.PEM,
               format=serialization.PrivateFormat.TraditionalOpenSSL,
@@ -85,22 +88,23 @@ def write_private_key(file_path: str, private_key: rsa.RSAPrivateKey) -> bool:
 
 
 def read_public_key(file_path: str) -> rsa.RSAPublicKey | None:
+    """Reads the public key in binary file"""
     try:
         with open(file_path, 'rb') as pem_in:
             public_bytes = pem_in.read()
         d_public_key = load_pem_public_key(public_bytes)
         print(d_public_key)
         return d_public_key
-    except:
+    except FileNotFoundError:
         return None
 
 
 def read_private_key(file_path: str) -> rsa.RSAPrivateKey | None:
+    """Reads the public key in binary file"""
     try:
         with open(file_path, 'rb') as pem_in:
             private_bytes = pem_in.read()
         d_private_key = load_pem_private_key(private_bytes,password=None,)
         return d_private_key
-    except Exception as ex:
-        print(ex)
+    except FileNotFoundError:
         return None
