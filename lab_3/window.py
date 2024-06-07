@@ -2,7 +2,9 @@ import sys
 
 from PyQt5.QtWidgets import QFileDialog, QApplication, QWidget, QPushButton, QGridLayout, QLabel, QTextEdit, QInputDialog
 
-from algorithms import Symmetric, Assymetric
+from functions import *
+from symmetric import Symmetric
+from assymetric import Assymetric
 from functions import *
 
 
